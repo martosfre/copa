@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="copaPU" transaction-type="JTA">
-    <jta-data-source>jdbc/__copa</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
-  </persistence-unit>
+    <!-- 1) transaction-type tiene dos opciones:
+    JTA=Java Transaction API, manejo automático de las transacciones, Servidor de Aplicación,
+    no tiene que llamar a los métodos begin, commit, rolllback, la otra opción se conoce
+    como RESOURCE_LOCAL es un manejo manual de las transacciones. Esta opción última se 
+    utiliza generalmente en servidores web y aplicaciones de escritorio -->
+    <persistence-unit name="copaPU" transaction-type="JTA">
+        <!-- 2 Configuración del proveedor de persistencia, cuando no se coloca se utiliza el por defecto
+        del servidor de aplicación -->         
+        <!-- <persistence-provider>org.eclipse.persistence.jpa.PersistenceProvider</persistence-provider>  -->
+        <!-- 3) Nombre del datasource (JNDI) creado en el servidor de aplicación que hace 
+        referencia a la conexión de la base de datos, el formato depende del servidor
+        de aplicación        -->   
+        <jta-data-source>jdbc/__copa</jta-data-source>
+        <!-- 4)Referencia a la forma de mapeo de las clases,  con esta instrucción <exclude-unlisted-classes>false</exclude-unlisted-classes>
+               automáticamente JPA buscará los entities en el classpath del proyecto  o en su lugar se puede mapear
+               cada clase con la instrucción <class>nombrepaquete.nombreclase</class>   -->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <!-- 5)Propiedades de JPA, de la capa de persistencia-->
+        <properties>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+        </properties>
+    </persistence-unit>
 </persistence>

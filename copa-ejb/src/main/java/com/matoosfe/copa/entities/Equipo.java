@@ -51,6 +51,7 @@ public class Equipo implements Serializable {
     @NotNull
     @Column(name = "equ_anio_fundacion")
     private int equAnioFundacion;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "equId")
     private List<Jugador> jugadorList;
 
