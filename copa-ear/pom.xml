@@ -50,16 +50,13 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <!-- Tell Maven we are using Jakarta EE -->
                     <version>8</version>
-                    <!--Jakarta EE ear libraries are in easy way to package any libraries 
-                    needed in the ear, and automatically have any modules (EJB-JARs and WARs) 
-                    use them -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
                         <ejbModule>
@@ -74,6 +71,7 @@
                     </modules>
                 </configuration>
             </plugin>
+                        -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

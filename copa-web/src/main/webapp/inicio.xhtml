@@ -15,14 +15,16 @@
                     <h:outputLabel value="INGRRESO COPA"/>
                 </f:facet> 
                 <h:outputLabel value="Usuario:" styleClass="etiqueta"/>
-                <h:inputText id="txtNomUsu" maxlength="10" required="true" requiredMessage="Usuario requerido"/>
+                <h:inputText id="txtNomUsu" maxlength="10" required="true" requiredMessage="Usuario requerido"
+                             value="#{inicioBean.nombreUsuario}"/>
                 <h:message for="txtNomUsu" style="color: red"/>
                 <h:outputLabel value="Clave:" styleClass="etiqueta"/>
-                <h:inputSecret id="txtClaUsu" maxlength="10" required="true" requiredMessage="Clave requerida"/>
+                <h:inputSecret id="txtClaUsu" maxlength="10" required="true" requiredMessage="Clave requerida"
+                               value="#{inicioBean.claveUsuario}"/>
                 <h:message for="txtClaUsu" style="color: red"/>
             </h:panelGrid>  
             <br/>
-            <h:commandButton value="Ingresar" type="submit"/>
+            <h:commandButton value="Ingresar" type="submit" action="#{inicioBean.validarUsuario}"/>
             <br/>
             <h:messages styleClass="estiloMensajeError" />
         </h:form>
