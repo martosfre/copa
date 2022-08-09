@@ -1,12 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Inicio</title>
+        <h:outputStylesheet library="css" name="copa.css"/>
+        <h:outputScript library="js" name="copa.js"/>
     </h:head>
     <h:body>
-        
+        <h:form  id="frmInicio">
+            <h:panelGrid id="panGriIni" width="450px" columns="3">
+                <f:facet name="header">
+                    <h:outputLabel value="INGRRESO COPA"/>
+                </f:facet> 
+                <h:outputLabel value="Usuario:" styleClass="etiqueta"/>
+                <h:inputText id="txtNomUsu" maxlength="10" required="true" requiredMessage="Usuario requerido"/>
+                <h:message for="txtNomUsu" style="color: red"/>
+                <h:outputLabel value="Clave:" styleClass="etiqueta"/>
+                <h:inputSecret id="txtClaUsu" maxlength="10" required="true" requiredMessage="Clave requerida"/>
+                <h:message for="txtClaUsu" style="color: red"/>
+            </h:panelGrid>  
+            <br/>
+            <h:commandButton value="Ingresar" type="submit"/>
+            <br/>
+            <h:messages styleClass="estiloMensajeError" />
+        </h:form>
+
     </h:body>
 </html>
 

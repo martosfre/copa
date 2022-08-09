@@ -6,7 +6,7 @@
         <property name="portNumber" value="5432"/>
         <property name="databaseName" value="copa"/>
         <property name="User" value="postgres"/>
-        <property name="Password" value=""/>
+        <property name="Password" value="Mat00sf3bdd.."/>
         <property name="URL" value="jdbc:postgresql://localhost:5432/copa"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
