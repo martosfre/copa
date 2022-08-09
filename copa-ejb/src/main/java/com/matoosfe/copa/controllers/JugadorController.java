@@ -4,7 +4,7 @@
  */
 package com.matoosfe.copa.controllers;
 
-import com.matoosfe.copa.entities.Equipo;
+import com.matoosfe.copa.entities.Jugador;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,13 +14,13 @@ import javax.persistence.PersistenceContext;
  * @author martosfre
  */
 @Stateless
-public class EquipoController extends AbstractController<Equipo> {
+public class JugadorController extends AbstractController<Jugador> {
 
     @PersistenceContext(unitName = "copaPU")
     private EntityManager em;
     
-    public EquipoController(){
-        super(Equipo.class);
+    public JugadorController(){
+        super(Jugador.class);
     }
     
     @Override
