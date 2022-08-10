@@ -16,7 +16,10 @@
                 </f:facet> 
                 <h:outputLabel value="Usuario:" styleClass="etiqueta"/>
                 <h:inputText id="txtNomUsu" maxlength="10" required="true" requiredMessage="Usuario requerido"
-                             value="#{inicioBean.nombreUsuario}"/>
+                             value="#{inicioBean.nombreUsuario}" 
+                             validatorMessage="El nombre de usuario debe contener 5 letras">
+                    <f:validateRegex pattern="[a-z]{5}"/> 
+                </h:inputText>   
                 <h:message for="txtNomUsu" style="color: red"/>
                 <h:outputLabel value="Clave:" styleClass="etiqueta"/>
                 <h:inputSecret id="txtClaUsu" maxlength="10" required="true" requiredMessage="Clave requerida"
