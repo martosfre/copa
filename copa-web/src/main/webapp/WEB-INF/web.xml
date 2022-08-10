@@ -18,6 +18,7 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.cnt</url-pattern>
+        <url-pattern>*.php</url-pattern>
     </servlet-mapping>
     <!-- fin configuración JSF -->
     

@@ -45,6 +45,7 @@ public class InicioBean {
      * @return 
      */
     public String validarUsuario() {
+        String paginaRetorno = null;
         FacesMessage mensajeJSF;
         if (!nombreUsuario.equals("admin")) {
             mensajeJSF = new FacesMessage("Credenciales Incorrectas");
@@ -52,9 +53,11 @@ public class InicioBean {
         } else {
             mensajeJSF = new FacesMessage("Bienvenido");
             mensajeJSF.setSeverity(FacesMessage.SEVERITY_INFO);
+            paginaRetorno = "principal";
         }
         FacesContext.getCurrentInstance().addMessage(null, mensajeJSF);
-        return null; //Misma Página
+        //return null; //Misma Página
+        return paginaRetorno;
     }
 
 }
