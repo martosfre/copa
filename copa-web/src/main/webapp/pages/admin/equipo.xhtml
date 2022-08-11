@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/templates/template.xhtml">
@@ -10,15 +11,41 @@
                 <h:outputText value="Administración de Equipos"/>
             </p:toolbarGroup>
             <p:toolbarGroup align="right">
-                <p:commandButton value="Nuevo"/>
-                <p:commandButton value="Guardar" process="@this panGriEqu" update="menGen"/>
-                <p:commandButton value="Eliminar"/>
+                <p:commandButton value="Nuevo" process="@this" actionListener="#{equipoBean.resetearFormulario}" update="panGriEqu datTabEqu"/>
+                <p:commandButton value="Guardar" process="@this panGriEqu" actionListener="#{equipoBean.guardar}"  update="menGen datTabEqu panGriEqu"/>
+                <p:commandButton value="Eliminar">
+                    <p:confirm id="diaConEqu" header="Confirmación" message="Está seguro de eliminar el equipo?"/>
+                </p:commandButton> 
             </p:toolbarGroup>
         </p:toolbar>
         <br/>
         <p:panelGrid id="panGriEqu" columns="4" style="width: 100%">
             <p:outputLabel for="txtNomEqu" value="Nombre:"/>
-            <p:inputText id="txtNomEqu" required="true"/>
+            <p:inputText id="txtNomEqu" required="true" maxlength="150" value="#{equipoBean.equipo.equNombre}"/>
+            <p:outputLabel for="txtAniFunEqu" value="Año de Fundación:"/>
+            <p:inputMask id="txtAniFunEqu"  mask="9999" required="true" value="#{equipoBean.equipo.equAnioFundacion}" 
+                         validatorMessage="El año de fundación debe estar en el rango de 2000-2050">
+                <f:validateDoubleRange minimum="2000" maximum="2050"/>
+            </p:inputMask>
         </p:panelGrid>
+        <br/>
+        <p:dataTable id="datTabEqu" var="equ" value="#{equipoBean.listaEquipos}" paginator="true" rowKey="#{equ.equId}" selectionMode="single">
+            <f:facet name="header">
+                <h:outputText value="Lista de Equipos"/>
+            </f:facet>
+            <p:ajax event="rowSelect" listener="#{equipoBean.seleccionarFila}" update="panGriEqu"/>
+            <p:column headerText="Nombre">
+                <h:outputText value="#{equ.equNombre}"/>
+            </p:column>
+            <p:column headerText="Año de Fundación">
+                <h:outputText value="#{equ.equAnioFundacion}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:confirmDialog global="true" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{equipoBean.eliminar}"
+                             update="menGen panGriEqu datTabEqu"/>
+        </p:confirmDialog>
     </ui:define>
 </ui:composition>

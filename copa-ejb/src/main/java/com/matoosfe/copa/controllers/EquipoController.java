@@ -5,6 +5,7 @@
 package com.matoosfe.copa.controllers;
 
 import com.matoosfe.copa.entities.Equipo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,14 @@ public class EquipoController extends AbstractController<Equipo> {
     @Override
     protected EntityManager getEntityManager() {
       return em;
+    }
+    
+    /**
+     * Método para consultar los equipos
+     * @return 
+     */
+    public List<Equipo> consultarEquipos(){
+        return em.createNamedQuery("Equipo.findAll").getResultList();
     }
 
 }
