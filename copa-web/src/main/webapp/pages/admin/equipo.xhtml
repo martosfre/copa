@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="contenido">
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <h:outputText value="Administración de Equipos"/>
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right">
+                <p:commandButton value="Nuevo"/>
+                <p:commandButton value="Guardar" process="@this panGriEqu" update="menGen"/>
+                <p:commandButton value="Eliminar"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <br/>
+        <p:panelGrid id="panGriEqu" columns="4" style="width: 100%">
+            <p:outputLabel for="txtNomEqu" value="Nombre:"/>
+            <p:inputText id="txtNomEqu" required="true"/>
+        </p:panelGrid>
+    </ui:define>
+</ui:composition>
