@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -87,6 +88,8 @@ public class Jugador implements Serializable {
     @JoinColumn(name = "parr_id", referencedColumnName = "parr_id")
     @ManyToOne(optional = false)
     private Parroquia parrId;
+    @Transient
+    private String localidad;
 
     public Jugador() {
     }
@@ -191,6 +194,14 @@ public class Jugador implements Serializable {
         this.parrId = parrId;
     }
 
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -215,5 +226,5 @@ public class Jugador implements Serializable {
     public String toString() {
         return "com.matoosfe.copa.entities.Jugador[ jugId=" + jugId + " ]";
     }
-    
+
 }

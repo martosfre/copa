@@ -37,4 +37,8 @@ public abstract class AbstractController<T> {
     public List<T> consultarTodos() {
         return getEntityManager().createQuery("Select t from " + tabla.getSimpleName() + " t", tabla).getResultList();
     }
+    
+    public T consultarPorId(Integer id){
+        return getEntityManager().find(tabla, id);
+    }
 }

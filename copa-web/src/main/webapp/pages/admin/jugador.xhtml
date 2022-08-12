@@ -1,15 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="contenido">
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <h:outputText value="Administración de Jugadores"/>
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right">
+                <p:commandButton value="Nuevo" process="@this" actionListener="#{jugadorBean.resetearFormulario}" update="panGriJug"/>
+                <p:commandButton value="Guardar" process="@this panGriEqu" actionListener="#{jugadorBean.guardar}"  update="menGen panGriJug"/>
+                 <p:commandButton value="Editar" process="@this" actionListener="#{jugadorBean.editar}"  update="menGen tabVieGen"/>
+                <p:commandButton value="Eliminar">
+                    <p:confirm id="diaConJug" header="Confirmación" message="Está seguro de eliminar el jugador?"/>
+                </p:commandButton> 
+            </p:toolbarGroup>
+        </p:toolbar>
+        <br/>
+        <p:tabView id="tabVieGen">
+            <p:tab title="Ingresar">
+                <p:panelGrid id="panGriJug" columns="4" style="width: 100%">
+                    <p:outputLabel for="cmbEqu" value="Equipo:"/>
+                    <p:selectOneMenu id="cmbEqu" required="true"  value="#{jugadorBean.jugador.equId}" converter="#{convEqu}">
+                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="fotJug" value="Foto:"/>
+                    <p:graphicImage library="img" name="igcognito.png" width="200px">
+                        <p:ajax event="click"/>
+                    </p:graphicImage>
+                    <p:outputLabel for="txtNomJug" value="Nombre:"/>
+                    <p:inputText id="txtNomJug" value="#{jugadorBean.jugador.jugNombre}" required="true"/>
+                    <p:outputLabel for="txtApePatJug" value="Apellido Paterno:"/>
+                    <p:inputText id="txtApePatJug" value="#{jugadorBean.jugador.jugApellidoPaterno}" required="true"/>
+                    <p:outputLabel for="txtApeMatJug" value="Apellido Materno:"/>
+                    <p:inputText id="txtApeMatJug" value="#{jugadorBean.jugador.jugApellidoMaterno}" required="true"/>
+                    <p:outputLabel for="calFecNacJug" value="Fecha Nacimiento"/>
+                    <p:calendar id="calFecNacJug" navigator="true" pattern="yyyy-MM-dd" value="#{jugadorBean.jugador.jugFechaNacimiento}"/>
+                    <p:outputLabel for="txtNumCelJug" value="Teléfono Celular:"/>
+                    <p:inputText id="txtNumCelJug" value="#{jugadorBean.jugador.jugTelefonoCelular}" required="true"/>
+                    <p:outputLabel for="txtCorrJug" value="Correo Electrónico:"/>
+                    <p:inputText id="txtCorrJug" value="#{jugadorBean.jugador.jugCorreo}"/>
+                    <p:outputLabel for="txaDirJug" value="Dirección:"/>
+                    <p:inputTextarea id="txaDirJug" rows="3" value="#{jugadorBean.jugador.jugDireccion}"/>
+                    <p:outputLabel for="cmbProJug" value="Provincia:"/>
+                    <p:selectOneMenu id="cmbProJug" required="true" value="#{jugadorBean.provincia}" converter="#{convPro}">
+                        <f:selectItem itemLabel="Seleccione una provincia" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{jugadorBean.listaProvincias}" var="pro" itemLabel="#{pro.proNombre}" itemValue="#{pro}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="cmbCanJug" value="Cantón:"/>
+                    <p:selectOneMenu id="cmbCanJug" required="true" value="#{jugadorBean.canton}" converter="#{convCan}">
+                        <f:selectItem itemLabel="Seleccione un cantón" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{jugadorBean.listaCantones}" var="can" itemLabel="#{can.canNombre}" itemValue="#{can}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="cmbParJug" value="Parroquia:"/>
+                    <p:selectOneMenu id="cmbParJug" required="true" value="#{jugadorBean.jugador.parrId}" converter="#{convParr}">
+                        <f:selectItem itemLabel="Seleccione una parroquia" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{jugadorBean.listaParroquias}" var="parr" itemLabel="#{parr.parrNombre}" itemValue="#{parr}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+            </p:tab>
+            <p:tab title="Listar">
+                <p:panelGrid id="panGriEqu" columns="3" style="width: 100%">
+                    <p:outputLabel for="cmbEquBus" value="Equipo:"/>
+                    <p:selectOneMenu id="cmbEquBus" required="true"  value="#{jugadorBean.equipo}" converter="">
+                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Buscar"/>
+                </p:panelGrid>
+                <br/>
+                <p:dataTable id="datTabJug" value="#{jugadorBean.listaJugadores}" var="jug" rowKey="#{jug.jugId}" paginator="true" rows="10"
+                             selectionMode="single">
+                    <f:facet name="header">
+                        <h:outputText value="Lista de Jugadores por Equipo"/>
+                    </f:facet>
+                    <p:ajax event="rowSelect" listener="#{jugadorBean.seleccionarFila}"/>
+                     <p:column headerText="Equipo">
+                         <h:outputText value="#{jug.equId.equNombre}"/>
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{jug.jugNombre}"/>
+                    </p:column>
+                    <p:column headerText="Apellido Paterno">
+                        <h:outputText value="#{jug.jugApellidoPaterno}"/>
+                    </p:column>
+                    <p:column headerText="Apellido Materno">
+                        <h:outputText value="#{jug.jugApellidoMaterno}"/>
+                    </p:column>
+                    <p:column headerText="Fecha de Nacimiento">
+                        <h:outputText value="#{jug.jugFechaNacimiento}"/>
+                    </p:column>
+                     <p:column headerText="Localidad">
+                        <h:outputText value="#{jug.localidad}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+        </p:tabView>
+        <p:confirmDialog global="true" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{jugadorBean.eliminar}"
+                             update="menGen panGriJug"/>
+        </p:confirmDialog>
+    </ui:define>
+</ui:composition>
+
