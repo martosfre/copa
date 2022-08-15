@@ -6,19 +6,18 @@ package com.matoosfe.copa.converters;
 
 import com.matoosfe.copa.controllers.CantonController;
 import com.matoosfe.copa.entities.Canton;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-import javax.inject.Named;
+
 
 /**
  *
  * @author martosfre
  */
-@Named("convCan")
-@RequestScoped
+@FacesConverter("convCan")
 public class ConvCanton implements Converter<Canton>{
 
     @Inject

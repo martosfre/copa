@@ -11,8 +11,8 @@
                 <h:outputText value="Administración de Jugadores"/>
             </p:toolbarGroup>
             <p:toolbarGroup align="right">
-                <p:commandButton value="Nuevo" process="@this" actionListener="#{jugadorBean.resetearFormulario}" update="panGriJug"/>
-                <p:commandButton value="Guardar" process="@this panGriEqu" actionListener="#{jugadorBean.guardar}"  update="menGen panGriJug"/>
+                <p:commandButton value="Nuevo" process="@this" actionListener="#{jugadorBean.resetearFormulario}" update="tabVieGen:panGriJug"/>
+                <p:commandButton value="Guardar" process="@this tabVieGen:panGriEqu" actionListener="#{jugadorBean.guardar}"  update="menGen tabVieGen:panGriJug"/>
                  <p:commandButton value="Editar" process="@this" actionListener="#{jugadorBean.editar}"  update="menGen tabVieGen"/>
                 <p:commandButton value="Eliminar">
                     <p:confirm id="diaConJug" header="Confirmación" message="Está seguro de eliminar el jugador?"/>
@@ -29,7 +29,7 @@
                         <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="fotJug" value="Foto:"/>
-                    <p:graphicImage library="img" name="igcognito.png" width="200px">
+                    <p:graphicImage id="fotJug" library="img" name="igcognito.png" width="200px">
                         <p:ajax event="click"/>
                     </p:graphicImage>
                     <p:outputLabel for="txtNomJug" value="Nombre:"/>
@@ -66,7 +66,7 @@
             <p:tab title="Listar">
                 <p:panelGrid id="panGriEqu" columns="3" style="width: 100%">
                     <p:outputLabel for="cmbEquBus" value="Equipo:"/>
-                    <p:selectOneMenu id="cmbEquBus" required="true"  value="#{jugadorBean.equipo}" converter="">
+                    <p:selectOneMenu id="cmbEquBus" required="true"  value="#{jugadorBean.equipo}" converter="#{convEqu}">
                         <f:selectItem itemLabel="Seleccione un equipo" itemValue="{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
                     </p:selectOneMenu>
@@ -103,7 +103,7 @@
         <p:confirmDialog global="true" hideEffect="fade" responsive="true" width="350">
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
             <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{jugadorBean.eliminar}"
-                             update="menGen panGriJug"/>
+                             update="menGen tabVieGen:panGriJug"/>
         </p:confirmDialog>
     </ui:define>
 </ui:composition>

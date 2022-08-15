@@ -6,19 +6,17 @@ package com.matoosfe.copa.converters;
 
 import com.matoosfe.copa.controllers.EquipoController;
 import com.matoosfe.copa.entities.Equipo;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author martosfre
  */
-@Named("convEqu")
-@RequestScoped
+@FacesConverter("convEqu")
 public class ConvEquipo implements Converter<Equipo>{
 
     @Inject

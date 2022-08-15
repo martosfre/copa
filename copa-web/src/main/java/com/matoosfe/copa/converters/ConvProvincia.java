@@ -6,19 +6,17 @@ package com.matoosfe.copa.converters;
 
 import com.matoosfe.copa.controllers.ProvinciaController;
 import com.matoosfe.copa.entities.Provincia;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
  * @author martosfre
  */
-@Named("convPro")
-@RequestScoped
+@FacesConverter("convPro")
 public class ConvProvincia implements Converter<Provincia>{
 
     @Inject
