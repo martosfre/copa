@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +50,7 @@ public class Equipo implements Serializable {
     @Column(name = "equ_anio_fundacion")
     private int equAnioFundacion;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equId", fetch = FetchType.EAGER)
     private List<Jugador> jugadorList;
 
     public Equipo() {

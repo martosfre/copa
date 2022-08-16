@@ -7,6 +7,7 @@ package com.matoosfe.copa.beans;
 import com.matoosfe.copa.beans.util.AbstractManagedBean;
 import com.matoosfe.copa.controllers.CantonController;
 import com.matoosfe.copa.controllers.EquipoController;
+import com.matoosfe.copa.controllers.JugadorController;
 import com.matoosfe.copa.controllers.ParroquiaController;
 import com.matoosfe.copa.controllers.ProvinciaController;
 import com.matoosfe.copa.entities.Canton;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
@@ -35,7 +36,7 @@ import org.primefaces.model.StreamedContent;
  * @author martosfre
  */
 @Named
-@ViewScoped
+@SessionScoped
 public class JugadorBean extends AbstractManagedBean implements Serializable {
 
     @Getter
@@ -83,6 +84,8 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     private CantonController adminCanton;
     @Inject
     private ParroquiaController adminParroquia;
+    @Inject
+    private JugadorController adminJugador;
 
     public JugadorBean() {
         this.jugador = new Jugador();
@@ -140,33 +143,71 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
 
     /**
      * Método para cargar la foto del jugador
-     * @param file 
+     *
+     * @param file
      */
-    public void cargarFoto(FileUploadEvent foto){
+    public void cargarFoto(FileUploadEvent foto) {
         InputStream fis = new ByteArrayInputStream(foto.getFile().getContent());
         this.fotoJugador = DefaultStreamedContent.builder()
                 .stream(() -> fis).build();
         this.jugador.setJugFoto(foto.getFile().getContent());
     }
+
     /**
      * Método para guardar o actualizar un jugador
      */
     public void guardar() {
-
+        try {
+            if (jugador.getJugId() == null) {
+                adminJugador.guardar(jugador);
+                anadirInfo("Jugador registrado  correctamente");
+            } else {
+                adminJugador.actualizar(jugador);
+                anadirInfo("Jugador actualizado  correctamente");
+            }
+            resetearFormulario();
+        } catch (Exception e) {
+            anadirError("Errror al guardar jugador:" + e.getMessage());
+        }
     }
 
     /**
      * Método para editar un jugador
      */
     public void editar() {
-
+        try {
+            if (jugadorSel != null) {
+                this.jugador = jugadorSel;
+                this.provincia = this.jugador.getParrId().getCanId().getProId();
+                cargarCantonesPorProvincia();
+                this.canton = this.jugador.getParrId().getCanId();
+                cargarParroquiasPorCanton();
+                InputStream fis = new ByteArrayInputStream(jugadorSel.getJugFoto());
+                this.fotoJugador = DefaultStreamedContent.builder()
+                        .stream(() -> fis).build();
+            } else {
+                anadirError("Se debe seleccionar un jugador");
+            }
+        } catch (Exception e) {
+            anadirError("No se pudo cargar la información del jugador para su edición");
+        }
     }
 
     /**
      * Método para eliminar un jugador
      */
     public void eliminar() {
-
+        try {
+            if (jugadorSel != null) {
+                adminJugador.eliminar(jugadorSel);
+                anadirInfo("Jugador eliminado correctamente");
+                resetearFormulario();
+            } else {
+                anadirError("Se debe seleccionar un jugador");
+            }
+        } catch (Exception e) {
+            anadirError("No se pudo eliminar el jugador:" + e.getMessage());
+        }
     }
 
     /**
@@ -179,6 +220,21 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     }
 
     /**
+     * Método para buscar jugadores por equipo
+     */
+    public void buscarJugadores() {
+        this.listaJugadores.clear();
+
+        adminJugador.buscarPorEquipo(equipo).forEach(jug -> {
+            String localidad = jug.getParrId().getCanId().getProId().getProNombre()
+                    + "/" + jug.getParrId().getCanId().getCanNombre()
+                    + "/" + jug.getParrId().getParrNombre();
+            jug.setLocalidad(localidad);
+            listaJugadores.add(jug);
+        });
+    }
+
+    /**
      * Método para resetear formulario
      */
     public void resetearFormulario() {
@@ -187,7 +243,11 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
         this.provincia = null;
         this.canton = null;
         this.equipo = null;
+        this.fotoJugador = null;
         this.listaJugadores.clear();
+        this.listaCantones.clear();
+        this.listaParroquias.clear();
+        cargarEquipos();
     }
 
     @PostConstruct

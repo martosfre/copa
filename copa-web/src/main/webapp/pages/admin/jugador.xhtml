@@ -11,9 +11,9 @@
                 <h:outputText value="Administración de Jugadores"/>
             </p:toolbarGroup>
             <p:toolbarGroup align="right">
-                <p:commandButton value="Nuevo" process="@this" actionListener="#{jugadorBean.resetearFormulario}" update="tabVieGen:panGriJug"/>
-                <p:commandButton value="Guardar" process="@this tabVieGen:panGriEqu" actionListener="#{jugadorBean.guardar}"  update="menGen tabVieGen:panGriJug"/>
-                 <p:commandButton value="Editar" process="@this" actionListener="#{jugadorBean.editar}"  update="menGen tabVieGen"/>
+                <p:commandButton value="Nuevo" process="@this" actionListener="#{jugadorBean.resetearFormulario}" update="tabVieGen:panGriJug tabVieGen:panGriEqu"/>
+                <p:commandButton value="Guardar" process="@this tabVieGen:panGriJug" actionListener="#{jugadorBean.guardar}"  update="menGen tabVieGen:panGriJug fotUplJug"/>
+                <p:commandButton value="Editar" process="@this" actionListener="#{jugadorBean.editar}"  update="menGen tabVieGen"/>
                 <p:commandButton value="Eliminar">
                     <p:confirm id="diaConJug" header="Confirmación" message="Está seguro de eliminar el jugador?"/>
                 </p:commandButton> 
@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                     <p:outputLabel for="fotJug" value="Foto:"/>
                     <p:graphicImage id="fotJug" library="img" value="#{jugadorBean.fotoJugador eq null ? jugadorBean.pathImagen:jugadorBean.fotoJugador}" 
-                                    width="200px" onclick="PF('diaFotJug').show();"/>
+                                    width="200px" onclick="PF('diaFotJug').show();" cache="false"/>
                     <p:outputLabel for="txtNomJug" value="Nombre:"/>
                     <p:inputText id="txtNomJug" value="#{jugadorBean.jugador.jugNombre}" required="true"/>
                     <p:outputLabel for="txtApePatJug" value="Apellido Paterno:"/>
@@ -72,7 +72,7 @@
                         <f:selectItem itemLabel="Seleccione un equipo" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Buscar"/>
+                    <p:commandButton value="Buscar" process="@this tabVieGen:panGriEqu" actionListener="#{jugadorBean.buscarJugadores}" update="tabVieGen:datTabJug"/>
                 </p:panelGrid>
                 <br/>
                 <p:dataTable id="datTabJug" value="#{jugadorBean.listaJugadores}" var="jug" rowKey="#{jug.jugId}" paginator="true" rows="10"
@@ -81,8 +81,8 @@
                         <h:outputText value="Lista de Jugadores por Equipo"/>
                     </f:facet>
                     <p:ajax event="rowSelect" listener="#{jugadorBean.seleccionarFila}"/>
-                     <p:column headerText="Equipo">
-                         <h:outputText value="#{jug.equId.equNombre}"/>
+                    <p:column headerText="Equipo">
+                        <h:outputText value="#{jug.equId.equNombre}"/>
                     </p:column>
                     <p:column headerText="Nombre">
                         <h:outputText value="#{jug.jugNombre}"/>
@@ -94,9 +94,11 @@
                         <h:outputText value="#{jug.jugApellidoMaterno}"/>
                     </p:column>
                     <p:column headerText="Fecha de Nacimiento">
-                        <h:outputText value="#{jug.jugFechaNacimiento}"/>
+                        <h:outputText value="#{jug.jugFechaNacimiento}">
+                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                        </h:outputText>
                     </p:column>
-                     <p:column headerText="Localidad">
+                    <p:column headerText="Localidad">
                         <h:outputText value="#{jug.localidad}"/>
                     </p:column>
                 </p:dataTable>
@@ -105,12 +107,12 @@
         <p:confirmDialog global="true" hideEffect="fade" responsive="true" width="350">
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
             <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{jugadorBean.eliminar}"
-                             update="menGen tabVieGen:panGriJug"/>
+                             update="menGen tabVieGen:panGriJug tabVieGen:panGriEqu  tabVieGen:datTabJug"/>
         </p:confirmDialog>
         <p:dialog widgetVar="diaFotJug" header="Cargar Fotografía">
-            <p:fileUpload listener="#{jugadorBean.cargarFoto}" mode="advanced" dragDropSupport="false"
-                  update="menGen tabVieGen:fotJug" sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
-                  oncomplete="PF('diaFotJug').hide();"/>
+            <p:fileUpload id="fotUplJug" listener="#{jugadorBean.cargarFoto}" mode="advanced" dragDropSupport="false"
+                          update="menGen tabVieGen:fotJug" sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                          oncomplete="PF('diaFotJug').hide();"/>
         </p:dialog>
     </ui:define>
 </ui:composition>
