@@ -101,6 +101,27 @@
                     <p:column headerText="Localidad">
                         <h:outputText value="#{jug.localidad}"/>
                     </p:column>
+                    <p:column headerText="Provincia">
+                        <h:outputText value="#{jug.parrId.canId.proId.proNombre}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Localidades">
+                <p:dataTable id="datTabLoc" value="#{jugadorBean.listaLocalidades}" var="loc" rowKey="#{loc.id}" paginator="true" rows="10"
+                             selectionMode="single">
+                    <f:facet name="header">
+                        <h:outputText value="Lista de Localidades"/>
+                    </f:facet>
+
+                    <p:column headerText="Provincia">
+                        <h:outputText value="#{loc.provincia}"/>
+                    </p:column>
+                    <p:column headerText="Cantón">
+                        <h:outputText value="#{loc.canton}"/>
+                    </p:column>
+                    <p:column headerText="Parroquia">
+                        <h:outputText value="#{loc.parroquia}"/>
+                    </p:column>
                 </p:dataTable>
             </p:tab>
         </p:tabView>

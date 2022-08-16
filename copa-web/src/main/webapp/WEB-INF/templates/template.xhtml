@@ -24,9 +24,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 <pe:layoutPane position="west" size="300px">
                     <p:panelMenu style="width:300px">
                         <p:submenu label="Admin">
-                            <p:menuitem value="Equipo" action="/pages/admin/equipo.cnt"  icon="pi pi-save"/>
-                            <p:menuitem value="Jugador" action="/pages/admin/jugador.cnt" icon="pi pi-refresh"/>
-                            <p:menuitem value="Provincia" action="/pages/admin/provincia.cnt" icon="pi pi-times"/>
+                            <p:menuitem value="Equipo" url="#{request.contextPath}/pages/admin/equipo.cnt"  icon="pi pi-save"/>
+                            <p:menuitem value="Jugador" url="#{request.contextPath}/pages/admin/jugador.cnt" icon="pi pi-refresh"/>
+                            <p:menuitem value="Provincia" url="#{request.contextPath}/pages/admin/provincia.cnt" icon="pi pi-times"/>
                         </p:submenu>
                         <p:submenu label="Campeonato">
                             <p:menuitem value="Calendario" url="http://www.primefaces.org" icon="pi pi-external-link"/>

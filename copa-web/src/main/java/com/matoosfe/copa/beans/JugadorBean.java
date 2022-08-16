@@ -8,11 +8,13 @@ import com.matoosfe.copa.beans.util.AbstractManagedBean;
 import com.matoosfe.copa.controllers.CantonController;
 import com.matoosfe.copa.controllers.EquipoController;
 import com.matoosfe.copa.controllers.JugadorController;
+import com.matoosfe.copa.controllers.LocalidadController;
 import com.matoosfe.copa.controllers.ParroquiaController;
 import com.matoosfe.copa.controllers.ProvinciaController;
 import com.matoosfe.copa.entities.Canton;
 import com.matoosfe.copa.entities.Equipo;
 import com.matoosfe.copa.entities.Jugador;
+import com.matoosfe.copa.entities.Localidad;
 import com.matoosfe.copa.entities.Parroquia;
 import com.matoosfe.copa.entities.Provincia;
 import java.io.ByteArrayInputStream;
@@ -75,6 +77,9 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     @Getter
     @Setter
     private String pathImagen;
+    @Getter
+    @Setter
+    private List<Localidad> listaLocalidades;
 
     @Inject
     private EquipoController adminEquipo;
@@ -86,6 +91,8 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     private ParroquiaController adminParroquia;
     @Inject
     private JugadorController adminJugador;
+    @Inject
+    private LocalidadController adminLocalidad;
 
     public JugadorBean() {
         this.jugador = new Jugador();
@@ -94,6 +101,7 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
         this.listaProvincias = new ArrayList<>();
         this.listaCantones = new ArrayList<>();
         this.listaParroquias = new ArrayList<>();
+        this.listaLocalidades  = new ArrayList<>();
         this.pathImagen = "/resources/img/igcognito.png";
     }
 
@@ -234,6 +242,10 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
         });
     }
 
+    
+    private void cargarLocalidades(){
+        this.listaLocalidades = adminLocalidad.consultarLocalidades();
+    }
     /**
      * Método para resetear formulario
      */
@@ -254,5 +266,6 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     public void inicializar() {
         cargarEquipos();
         cargarProvincias();
+        cargarLocalidades();
     }
 }
