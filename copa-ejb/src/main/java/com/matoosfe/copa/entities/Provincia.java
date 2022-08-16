@@ -19,16 +19,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  *
  * @author martosfre
  */
 @Entity
-@Table(name = "provincia")
-@XmlRootElement
+@Table(name = "provincia", schema = "admin")
 @NamedQueries({
     @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p"),
     @NamedQuery(name = "Provincia.findByProId", query = "SELECT p FROM Provincia p WHERE p.proId = :proId"),
@@ -92,7 +90,6 @@ public class Provincia implements Serializable {
         this.proCodigo = proCodigo;
     }
 
-    @XmlTransient
     public List<Canton> getCantonList() {
         return cantonList;
     }

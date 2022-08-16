@@ -99,3 +99,44 @@ ALTER TABLE "admin".jugador ADD jug_direccion varchar(300) NULL;
 COMMENT ON COLUMN "admin".jugador.jug_direccion IS 'Dirección del Jugador';
 
 
+-- Auto-generated SQL script #202208151609
+INSERT INTO "admin".provincia (pro_nombre,pro_codigo)
+	VALUES ('Pichincha','17');
+INSERT INTO "admin".provincia (pro_nombre,pro_codigo)
+	VALUES ('Guayas','09');
+INSERT INTO "admin".provincia (pro_nombre,pro_codigo)
+	VALUES ('Azuay','01');
+
+
+-- Auto-generated SQL script #202208151612
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Quito','01',1);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Cayambe','02',1);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Mejia','03',1);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Guayaquil','01',2);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Alfredo Baquerizo Moreno','02',2);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Cuenca','01',3);
+INSERT INTO "admin".canton (can_nombre,can_codigo,pro_id)
+	VALUES ('Giron','02',3);
+
+-- Auto-generated SQL script #202208151617
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Alfaro','01',1);
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Cotocollao','03',1);
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Ayacucho','01',4);
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Letamendi','06',4);
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Bellavista','01',6);
+INSERT INTO "admin".parroquia (parr_nombre,parr_codigo,can_id)
+	VALUES ('Baños','51',6);
+
+
+

@@ -6,27 +6,29 @@ package com.matoosfe.copa.converters;
 
 import com.matoosfe.copa.controllers.ProvinciaController;
 import com.matoosfe.copa.entities.Provincia;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author martosfre
  */
-@FacesConverter("convPro")
-public class ConvProvincia implements Converter<Provincia>{
+@Named("convPro")
+@RequestScoped
+public class ConvProvincia implements Converter<Provincia> {
 
     @Inject
     private ProvinciaController adminProvincia;
-    
+
     //Viene de la pantalla a la bdd (2)
     @Override
     public Provincia getAsObject(FacesContext fc, UIComponent uic, String codigoPro) {
         Provincia provincia = null;
-        if(codigoPro != null){
+        if (codigoPro != null) {
             provincia = adminProvincia.consultarPorId(Integer.parseInt(codigoPro));
         }
         return provincia;
@@ -36,10 +38,10 @@ public class ConvProvincia implements Converter<Provincia>{
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Provincia provincia) {
         String codigoPro = null;
-        if(provincia != null){
-           codigoPro = provincia.getProId().toString();
-       }
+        if (provincia != null) {
+            codigoPro = provincia.getProId().toString();
+        }
         return codigoPro;
     }
-    
+
 }

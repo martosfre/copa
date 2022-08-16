@@ -4,10 +4,13 @@
  */
 package com.matoosfe.copa.controllers;
 
+import com.matoosfe.copa.entities.Canton;
 import com.matoosfe.copa.entities.Parroquia;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * no-view interface
@@ -26,6 +29,13 @@ public class ParroquiaController extends AbstractController<Parroquia> {
     @Override
     protected EntityManager getEntityManager() {
       return em;
+    }
+
+    public List<Parroquia> consultarPorCanton(Canton canton) {
+        Query conParCan = em.createNativeQuery("select p.* from admin.parroquia p"
+                + " where p.can_id = ?1 ", Parroquia.class);
+        conParCan.setParameter(1, canton.getCanId());
+        return conParCan.getResultList();
     }
 
 }

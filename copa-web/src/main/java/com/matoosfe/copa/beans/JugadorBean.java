@@ -5,12 +5,17 @@
 package com.matoosfe.copa.beans;
 
 import com.matoosfe.copa.beans.util.AbstractManagedBean;
+import com.matoosfe.copa.controllers.CantonController;
 import com.matoosfe.copa.controllers.EquipoController;
+import com.matoosfe.copa.controllers.ParroquiaController;
+import com.matoosfe.copa.controllers.ProvinciaController;
 import com.matoosfe.copa.entities.Canton;
 import com.matoosfe.copa.entities.Equipo;
 import com.matoosfe.copa.entities.Jugador;
 import com.matoosfe.copa.entities.Parroquia;
 import com.matoosfe.copa.entities.Provincia;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -29,7 +37,7 @@ import org.primefaces.event.SelectEvent;
 @Named
 @ViewScoped
 public class JugadorBean extends AbstractManagedBean implements Serializable {
-    
+
     @Getter
     @Setter
     private Jugador jugador;
@@ -60,10 +68,22 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
     @Getter
     @Setter
     private List<Parroquia> listaParroquias;
-    
+    @Getter
+    @Setter
+    private StreamedContent fotoJugador;
+    @Getter
+    @Setter
+    private String pathImagen;
+
     @Inject
     private EquipoController adminEquipo;
-    
+    @Inject
+    private ProvinciaController adminProvincia;
+    @Inject
+    private CantonController adminCanton;
+    @Inject
+    private ParroquiaController adminParroquia;
+
     public JugadorBean() {
         this.jugador = new Jugador();
         this.listaJugadores = new ArrayList<>();
@@ -71,6 +91,7 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
         this.listaProvincias = new ArrayList<>();
         this.listaCantones = new ArrayList<>();
         this.listaParroquias = new ArrayList<>();
+        this.pathImagen = "/resources/img/igcognito.png";
     }
 
     /**
@@ -88,28 +109,64 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
      * Método para cargar provincias
      */
     private void cargarProvincias() {
-        
+        try {
+            this.listaProvincias = adminProvincia.consultarTodos();
+        } catch (Exception e) {
+            anadirError("No se pudo cargar las provincias:" + e.getMessage());
+        }
     }
 
+    /**
+     * Método para cargar cantones por provincia
+     */
+    public void cargarCantonesPorProvincia() {
+        try {
+            this.listaCantones = adminCanton.consultarPorProvincia(provincia);
+        } catch (Exception e) {
+            anadirError("No se pudo cargar los cantones por provincia:" + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para cargar parroquias por cantón
+     */
+    public void cargarParroquiasPorCanton() {
+        try {
+            this.listaParroquias = adminParroquia.consultarPorCanton(canton);
+        } catch (Exception e) {
+            anadirError("No se pudo cargar los cantones por provincia:" + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para cargar la foto del jugador
+     * @param file 
+     */
+    public void cargarFoto(FileUploadEvent foto){
+        InputStream fis = new ByteArrayInputStream(foto.getFile().getContent());
+        this.fotoJugador = DefaultStreamedContent.builder()
+                .stream(() -> fis).build();
+        this.jugador.setJugFoto(foto.getFile().getContent());
+    }
     /**
      * Método para guardar o actualizar un jugador
      */
     public void guardar() {
-        
+
     }
 
     /**
      * Método para editar un jugador
      */
     public void editar() {
-        
+
     }
 
     /**
      * Método para eliminar un jugador
      */
     public void eliminar() {
-        
+
     }
 
     /**
@@ -132,7 +189,7 @@ public class JugadorBean extends AbstractManagedBean implements Serializable {
         this.equipo = null;
         this.listaJugadores.clear();
     }
-    
+
     @PostConstruct
     public void inicializar() {
         cargarEquipos();

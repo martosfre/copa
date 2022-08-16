@@ -21,16 +21,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  *
  * @author martosfre
  */
 @Entity
-@Table(name = "parroquia")
-@XmlRootElement
+@Table(name = "parroquia", schema = "admin")
+
 @NamedQueries({
     @NamedQuery(name = "Parroquia.findAll", query = "SELECT p FROM Parroquia p"),
     @NamedQuery(name = "Parroquia.findByParrId", query = "SELECT p FROM Parroquia p WHERE p.parrId = :parrId"),
@@ -97,7 +96,6 @@ public class Parroquia implements Serializable {
         this.parrCodigo = parrCodigo;
     }
 
-    @XmlTransient
     public List<Jugador> getJugadorList() {
         return jugadorList;
     }

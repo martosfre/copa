@@ -4,7 +4,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/templates/template.xhtml">
+                template="/WEB-INF/templates/template_img.xhtml">
     <ui:define name="contenido">
         <p:toolbar>
             <p:toolbarGroup align="left">
@@ -25,13 +25,12 @@
                 <p:panelGrid id="panGriJug" columns="4" style="width: 100%">
                     <p:outputLabel for="cmbEqu" value="Equipo:"/>
                     <p:selectOneMenu id="cmbEqu" required="true"  value="#{jugadorBean.jugador.equId}" converter="#{convEqu}">
-                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="fotJug" value="Foto:"/>
-                    <p:graphicImage id="fotJug" library="img" name="igcognito.png" width="200px">
-                        <p:ajax event="click"/>
-                    </p:graphicImage>
+                    <p:graphicImage id="fotJug" library="img" value="#{jugadorBean.fotoJugador eq null ? jugadorBean.pathImagen:jugadorBean.fotoJugador}" 
+                                    width="200px" onclick="PF('diaFotJug').show();"/>
                     <p:outputLabel for="txtNomJug" value="Nombre:"/>
                     <p:inputText id="txtNomJug" value="#{jugadorBean.jugador.jugNombre}" required="true"/>
                     <p:outputLabel for="txtApePatJug" value="Apellido Paterno:"/>
@@ -48,17 +47,20 @@
                     <p:inputTextarea id="txaDirJug" rows="3" value="#{jugadorBean.jugador.jugDireccion}"/>
                     <p:outputLabel for="cmbProJug" value="Provincia:"/>
                     <p:selectOneMenu id="cmbProJug" required="true" value="#{jugadorBean.provincia}" converter="#{convPro}">
-                        <f:selectItem itemLabel="Seleccione una provincia" itemValue="{null}" noSelectionOption="true"/>
+                        <p:ajax event="change" listener="#{jugadorBean.cargarCantonesPorProvincia}" update="tabVieGen:cmbCanJug menGen"/>
+                        <f:selectItem itemLabel="Seleccione una provincia" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaProvincias}" var="pro" itemLabel="#{pro.proNombre}" itemValue="#{pro}"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="cmbCanJug" value="Cantón:"/>
-                    <p:selectOneMenu id="cmbCanJug" required="true" value="#{jugadorBean.canton}" converter="#{convCan}">
-                        <f:selectItem itemLabel="Seleccione un cantón" itemValue="{null}" noSelectionOption="true"/>
+                    <p:selectOneMenu id="cmbCanJug" required="true" value="#{jugadorBean.canton}">
+                        <p:ajax event="change" listener="#{jugadorBean.cargarParroquiasPorCanton}" update="tabVieGen:cmbParJug menGen"/>
+                        <f:selectItem itemLabel="Seleccione un cantón" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaCantones}" var="can" itemLabel="#{can.canNombre}" itemValue="#{can}"/>
+                        <f:converter converterId="convCan"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="cmbParJug" value="Parroquia:"/>
                     <p:selectOneMenu id="cmbParJug" required="true" value="#{jugadorBean.jugador.parrId}" converter="#{convParr}">
-                        <f:selectItem itemLabel="Seleccione una parroquia" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Seleccione una parroquia" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaParroquias}" var="parr" itemLabel="#{parr.parrNombre}" itemValue="#{parr}"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
@@ -67,7 +69,7 @@
                 <p:panelGrid id="panGriEqu" columns="3" style="width: 100%">
                     <p:outputLabel for="cmbEquBus" value="Equipo:"/>
                     <p:selectOneMenu id="cmbEquBus" required="true"  value="#{jugadorBean.equipo}" converter="#{convEqu}">
-                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="{null}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Seleccione un equipo" itemValue="#{null}" noSelectionOption="true"/>
                         <f:selectItems value="#{jugadorBean.listaEquipos}" var="equ" itemLabel="#{equ.equNombre}" itemValue="#{equ}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="Buscar"/>
@@ -105,6 +107,11 @@
             <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{jugadorBean.eliminar}"
                              update="menGen tabVieGen:panGriJug"/>
         </p:confirmDialog>
+        <p:dialog widgetVar="diaFotJug" header="Cargar Fotografía">
+            <p:fileUpload listener="#{jugadorBean.cargarFoto}" mode="advanced" dragDropSupport="false"
+                  update="menGen tabVieGen:fotJug" sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                  oncomplete="PF('diaFotJug').hide();"/>
+        </p:dialog>
     </ui:define>
 </ui:composition>
 
