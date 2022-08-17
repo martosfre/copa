@@ -44,18 +44,37 @@
                 <h:outputText value="#{equ.equAnioFundacion}"/>
             </p:column>
         </p:dataTable>
+        <br></br>
+
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="Exportar Selección" process="@this datTabEquExp" actionListener="#{equipoBean.exportarSeleccion}" ajax="false" immediate="true"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:dataTable id="datTabEquExp" var="equ" value="#{equipoBean.listaEquipos}" paginator="true" rowKey="#{equ.equId}" selection="#{equipoBean.equiposSeleccionados}">
+            <f:facet name="header">
+                <h:outputText value="Lista de Equipos"/>
+            </f:facet>
+            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+            <p:column headerText="Nombre">
+                <h:outputText value="#{equ.equNombre}"/>
+            </p:column>
+            <p:column headerText="Año de Fundación">
+                <h:outputText value="#{equ.equAnioFundacion}"/>
+            </p:column>
+        </p:dataTable>
 
         <p:confirmDialog global="true" hideEffect="fade" responsive="true" width="350">
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
             <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{equipoBean.eliminar}"
                              update="menGen panGriEqu datTabEqu"/>
         </p:confirmDialog>
-        
-         <p:dialog widgetVar="diaArcCsv" header="Cargar Archivo">
-             <p:fileUpload id="arcEquJug" listener="#{equipoBean.guardarEquipoJugadorCSV}" mode="advanced" dragDropSupport="false"
+
+        <p:dialog widgetVar="diaArcCsv" header="Cargar Archivo">
+            <p:fileUpload id="arcEquJug" listener="#{equipoBean.guardarEquipoJugadorCSV}" mode="advanced" dragDropSupport="false"
                           update="menGen datTabEqu" sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(csv|txt)$/" 
                           oncomplete="PF('diaArcCsv').hide();"/>
         </p:dialog>
-        
+
     </ui:define>
 </ui:composition>
