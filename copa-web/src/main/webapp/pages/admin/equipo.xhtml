@@ -9,6 +9,7 @@
         <p:toolbar>
             <p:toolbarGroup align="left">
                 <h:outputText value="Administración de Equipos"/>
+                <p:commandButton value="Guardar Equipo/Jugador Archivo" process="@this" onclick="PF('diaArcCsv').show();"/>
             </p:toolbarGroup>
             <p:toolbarGroup align="right">
                 <p:commandButton value="Nuevo" process="@this" actionListener="#{equipoBean.resetearFormulario}" update="panGriEqu datTabEqu"/>
@@ -16,6 +17,8 @@
                 <p:commandButton value="Eliminar">
                     <p:confirm id="diaConEqu" header="Confirmación" message="Está seguro de eliminar el equipo?"/>
                 </p:commandButton> 
+                <p:commandButton value="Guardar Equipo/Jugador" process="@this" actionListener="#{equipoBean.guardarEquipoJugador}" update="menGen"/>
+                <p:commandButton value="Guardar Equipo/Jugador MD" process="@this" actionListener="#{equipoBean.guardarEquipoJugadorMD}" update="menGen"/>
             </p:toolbarGroup>
         </p:toolbar>
         <br/>
@@ -47,5 +50,12 @@
             <p:commandButton value="Yes" type="submit" styleClass="ui-confirmdialog-yes" process="@this" actionListener="#{equipoBean.eliminar}"
                              update="menGen panGriEqu datTabEqu"/>
         </p:confirmDialog>
+        
+         <p:dialog widgetVar="diaArcCsv" header="Cargar Archivo">
+             <p:fileUpload id="arcEquJug" listener="#{equipoBean.guardarEquipoJugadorCSV}" mode="advanced" dragDropSupport="false"
+                          update="menGen datTabEqu" sizeLimit="500000" fileLimit="1" allowTypes="/(\.|\/)(csv|txt)$/" 
+                          oncomplete="PF('diaArcCsv').hide();"/>
+        </p:dialog>
+        
     </ui:define>
 </ui:composition>

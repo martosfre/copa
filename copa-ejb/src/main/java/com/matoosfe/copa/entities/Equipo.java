@@ -49,8 +49,8 @@ public class Equipo implements Serializable {
     @NotNull
     @Column(name = "equ_anio_fundacion")
     private int equAnioFundacion;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equId", fetch = FetchType.EAGER)
+    //1) Colocar el atributo CascadeType.ALL en la relación de muchos
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "equId", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Jugador> jugadorList;
 
     public Equipo() {

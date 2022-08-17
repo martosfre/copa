@@ -5,6 +5,7 @@
 package com.matoosfe.copa.controllers;
 
 import com.matoosfe.copa.entities.Equipo;
+import com.matoosfe.copa.entities.Jugador;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,6 +36,42 @@ public class EquipoController extends AbstractController<Equipo> {
      */
     public List<Equipo> consultarEquipos(){
         return em.createNamedQuery("Equipo.findAll").getResultList();
+    }
+
+    /**
+     * Método para guardar equipo con jugadores
+     * @param equipo
+     * @param listaJugadores
+     * @return 
+     */
+    public String guardar(Equipo equipo, List<Jugador> listaJugadores) {
+       em.persist(equipo);
+       listaJugadores.forEach(jug -> {
+           em.persist(jug);
+       });
+       return "Equipo con Jugaddores guardado correctamente";
+    }
+    
+    /**
+     * Método para guardar equipo con jugadores
+     * @param equipo
+     * @param listaJugadores
+     * @return 
+     */
+    public String guardarJug(Equipo equipo, List<Jugador> listaJugadores) {
+       em.persist(equipo);
+       guardarJugadores(listaJugadores);
+       return "Equipo con Jugaddores guardado correctamente";
+    }
+    
+    /**
+     * Método para guardar jugadores
+     * @param listaJugadores 
+     */
+    public void guardarJugadores(List<Jugador> listaJugadores){
+        listaJugadores.forEach(jug -> {
+           em.persist(jug);
+       });
     }
 
 }
