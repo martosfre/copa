@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "equipo", schema = "admin")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e"),
     @NamedQuery(name = "Equipo.findByEquId", query = "SELECT e FROM Equipo e WHERE e.equId = :equId"),
@@ -90,6 +93,7 @@ public class Equipo implements Serializable {
         this.equAnioFundacion = equAnioFundacion;
     }
 
+    @XmlTransient
     public List<Jugador> getJugadorList() {
         return jugadorList;
     }
