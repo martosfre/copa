@@ -6,6 +6,7 @@ package com.matoosfe.copa.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -94,6 +95,7 @@ public class Equipo implements Serializable {
     }
 
     @XmlTransient
+    @JsonbTransient
     public List<Jugador> getJugadorList() {
         return jugadorList;
     }

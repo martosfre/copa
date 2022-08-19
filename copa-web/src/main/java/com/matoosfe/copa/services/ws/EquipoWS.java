@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/WebService.java to edit this template
  */
-package com.matoosfe.copa.beans.services;
+package com.matoosfe.copa.services.ws;
 
 import com.matoosfe.copa.controllers.EquipoController;
 import com.matoosfe.copa.entities.Equipo;

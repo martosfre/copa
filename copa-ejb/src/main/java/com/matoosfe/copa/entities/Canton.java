@@ -6,6 +6,7 @@ package com.matoosfe.copa.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,6 +53,7 @@ public class Canton implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "can_codigo")
     private String canCodigo;
+    @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "canId")
     private List<Parroquia> parroquiaList;
     @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")

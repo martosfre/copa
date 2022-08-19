@@ -6,6 +6,7 @@ package com.matoosfe.copa.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,6 +51,7 @@ public class Provincia implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "pro_codigo")
     private String proCodigo;
+    @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proId")
     private List<Canton> cantonList;
 
